@@ -3,6 +3,9 @@ import Home from './pages/Home';
 import Start from './pages/Start';
 import RiskProfile from './pages/RiskProfile';
 import Locations from './pages/Locations';
+import EnsoForecasting from './pages/EnsoForecasting';
+import YieldOptimizer from './pages/YieldOptimizer';
+import Api from './pages/api';
 
 function App() {
   return (
@@ -11,6 +14,9 @@ function App() {
       <Route path="/start" element={<Start />} />
       <Route path="/risk/:crop" element={<RiskProfile />} />
       <Route path="/risk/:crop/locations" element={<Locations />} />
+      <Route path="/dashboard/enso-forecasting" element={<EnsoForecasting />} />
+      <Route path="/dashboard/yield-optimizer" element={<YieldOptimizer />} />
+      <Route path="/api" element={<Api />} />
     </Routes>
   );
 }

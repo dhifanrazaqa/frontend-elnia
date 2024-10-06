@@ -50,7 +50,7 @@ export default function Home() {
           for a<br />
           <span className="font-bold">Complex</span>{" "}
           <span className="font-bold bg-gradient-to-t from-sky-500 to-sky-800 inline-block text-transparent bg-clip-text font-bold3">
-            Climate
+            Agriculture
           </span>{" "}
           Condition
         </h1>
@@ -68,8 +68,8 @@ export default function Home() {
       </section>
 
       {/* Feature Section */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-40 px-96 py-8 items-center justify-center">
-        <div className="flex flex-col justify-center items-center bg-background text-white p-6 rounded-lg shadow-2xl w-96">
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-9 px-32 py-8 items-center justify-center">
+        <div className="flex flex-col justify-center items-center bg-background text-white p-6 rounded-lg shadow-2xl w-96 z-50">
           <h3 className="text-xl font-semibold">Enso Forecasting</h3>
           <p className="mt-2 text-neutral-500 text-center">
             Provides real-time climate predictions based on data to detect
@@ -81,6 +81,13 @@ export default function Home() {
           <p className="mt-2 text-neutral-500 text-center">
             Optimizes crop yield through climate analysis and resource
             allocation for informed farming decisions.
+          </p>
+        </div>
+        <div className="flex flex-col justify-center items-center bg-background text-white p-6 rounded-lg shadow-2xl w-96">
+          <h3 className="text-xl font-semibold">Water Management</h3>
+          <p className="mt-2 text-neutral-500 text-center">
+            Farmers can minimize water wastage while ensuring their crops get
+            the optimal amount of water for growth.
           </p>
         </div>
       </section>

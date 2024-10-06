@@ -1,6 +1,9 @@
 import { Link, useParams } from "react-router-dom";
 import logo from "../assets/logo.png";
 import soybean from "../assets/soybean.png";
+import wheat from "../assets/wheat.png";
+import rice from "../assets/rice.png";
+import corn from "../assets/corn.png";
 import { riskProfile } from "@/data/riskProfile";
 import React from "react";
 
@@ -55,7 +58,19 @@ export default function RiskProfile() {
                       Risk profiles for{" "}
                       <span className="text-blue-700">{cropProfile.crop}</span>
                     </h1>
-                    <img src={soybean} alt="Logo" />
+                    <img
+                      src={
+                        crop === "Soybean"
+                          ? soybean
+                          : crop === "Wheat"
+                          ? wheat
+                          : crop === "Rice"
+                          ? rice
+                          : corn
+                      }
+                      alt="Logo"
+                      className="w-10"
+                    />
                   </div>
                   <p className="text-sm font-normal">
                     Review our suggested risk profiles for {cropProfile.crop},

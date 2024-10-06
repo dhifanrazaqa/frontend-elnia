@@ -11,7 +11,10 @@ import L from "leaflet";
 import locationIc from "@/assets/location_ic.png";
 import locationWIc from "@/assets/location_w_ic.png";
 import logo from "@/assets/logo.png";
-import soybean from "@/assets/soybean.png";
+import soybean from "../assets/soybean.png";
+import wheat from "../assets/wheat.png";
+import rice from "../assets/rice.png";
+import corn from "../assets/corn.png";
 import { Link, useParams } from "react-router-dom";
 
 const MapComponent = () => {
@@ -22,7 +25,12 @@ const MapComponent = () => {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [region, setRegion] = useState("");
-  const [locationName, setLocationName] = useState("");
+  const [farmName, setfarmName] = useState("");
+  const [landArea, setLandArea] = useState("");
+  const [irrigationAreaLength, setIrrigationAreaLength] = useState("");
+  const [irrigationAreaWidth, setIrrigationAreaWidth] = useState("");
+  const [irrigationAreaDepth, setIrrigationAreaDepth] = useState("");
+  const [status, setStatus] = useState("Planting");
 
   const markerIcon = new L.Icon({
     iconUrl: locationIc,
@@ -38,17 +46,34 @@ const MapComponent = () => {
         lat: parseFloat(latitude),
         lng: parseFloat(longitude),
         region,
-        locationName,
+        farmName,
+        landArea,
+        irrigationAreaLength,
+        irrigationAreaDepth,
+        irrigationAreaWidth,
+        status,
+        crop
       };
       setMarkers([...markers, newMarker]);
       setLatitude("");
       setLongitude("");
       setRegion("");
-      setLocationName("");
+      setfarmName("");
+      setLandArea("");
+      setIrrigationAreaLength("");
+      setIrrigationAreaWidth("");
+      setIrrigationAreaDepth("");
+      setStatus("");
       setModalVisible(false);
+      console.log(markers);
     } else {
       alert("Please input valid locations.");
     }
+  };
+
+  const handleStatusChange = (e) => {
+    const { value } = e.target;
+    setStatus(value);
   };
 
   const MapClickHandler = () => {
@@ -106,10 +131,21 @@ const MapComponent = () => {
               <div className="mb-6">
                 <div className="flex flex-row space-x-2">
                   <h1 className="text-xl font-semibold">
-                    Risk profiles for{" "}
-                    <span className="text-blue-700">{crop}</span>
+                    Locations for <span className="text-blue-700">{crop}</span>
                   </h1>
-                  <img src={soybean} alt="Logo" />
+                  <img
+                    src={
+                      crop === "soybean"
+                        ? soybean
+                        : crop === "wheat"
+                        ? wheat
+                        : crop === "rice"
+                        ? rice
+                        : corn
+                    }
+                    alt="Logo"
+                    className="w-10"
+                  />
                 </div>
                 <p className="text-sm font-normal">
                   Add one or more locations you want to monitor for {crop}
@@ -145,7 +181,7 @@ const MapComponent = () => {
                         }
                       >
                         <td className="py-2 px-4 text-white">
-                          {marker.locationName}
+                          {marker.farmName}
                         </td>
                         <td className="py-2 px-4 text-white">
                           {marker.region}
@@ -180,7 +216,7 @@ const MapComponent = () => {
                     icon={markerIcon}
                   >
                     <Popup>
-                      <strong>{marker.locationName}</strong>
+                      <strong>{marker.farmName}</strong>
                       <br />
                       Region: {marker.region}
                       <br />
@@ -218,18 +254,58 @@ const MapComponent = () => {
                 />
                 <input
                   type="text"
+                  placeholder="Farm Name"
+                  value={farmName}
+                  onChange={(e) => setfarmName(e.target.value)}
+                  className="border p-2 mb-2 w-full rounded-md bg-neutral-800 border-neutral-500"
+                />
+                <input
+                  type="text"
                   placeholder="Region"
                   value={region}
                   onChange={(e) => setRegion(e.target.value)}
                   className="border p-2 mb-2 w-full rounded-md bg-neutral-800 border-neutral-500"
                 />
                 <input
-                  type="text"
-                  placeholder="Location Name"
-                  value={locationName}
-                  onChange={(e) => setLocationName(e.target.value)}
+                  type="number"
+                  placeholder="Land Area (Wide)"
+                  value={landArea}
+                  onChange={(e) => setLandArea(e.target.value)}
                   className="border p-2 mb-2 w-full rounded-md bg-neutral-800 border-neutral-500"
                 />
+                <input
+                  type="number"
+                  placeholder="Irrigation Area (Length)"
+                  value={irrigationAreaLength}
+                  onChange={(e) => setIrrigationAreaLength(e.target.value)}
+                  className="border p-2 mb-2 w-full rounded-md bg-neutral-800 border-neutral-500"
+                />
+                <input
+                  type="number"
+                  placeholder="Irrigation Area (Width)"
+                  value={irrigationAreaWidth}
+                  onChange={(e) => setIrrigationAreaWidth(e.target.value)}
+                  className="border p-2 mb-2 w-full rounded-md bg-neutral-800 border-neutral-500"
+                />
+                <input
+                  type="number"
+                  placeholder="Irrigation Area (Depth)"
+                  value={irrigationAreaDepth}
+                  onChange={(e) => setIrrigationAreaDepth(e.target.value)}
+                  className="border p-2 mb-2 w-full rounded-md bg-neutral-800 border-neutral-500"
+                />
+                <div className="">
+                  <select
+                    className="border p-2 mb-2 w-full rounded-md bg-neutral-800 border-neutral-500"
+                    value={status}
+                    onChange={handleStatusChange}
+                  >
+                    <option>Planting</option>
+                    <option>Flowering</option>
+                    <option>Growing</option>
+                    <option>Harvest</option>
+                  </select>
+                </div>
                 <div className="flex justify-end">
                   <button
                     className="border-4 border-blue-700 text-blue-700 px-4 py-2 rounded mr-2"
@@ -254,6 +330,7 @@ const MapComponent = () => {
                 <h2 className="text-xl font-semibold mb-4">
                   Finish setup and continue to the platform?
                 </h2>
+                {console.log(markers)}
                 <p className="text-neutral-400 mt-4 mb-8">
                   You will be able to add more locations and assets later in the
                   Admin tab.
@@ -265,12 +342,11 @@ const MapComponent = () => {
                   >
                     Keep Editing
                   </button>
-                  <button
-                    className="bg-blue-700 text-white px-4 py-2 rounded font-bold"
-                    onClick={() => {}}
-                  >
-                    Finish Setup
-                  </button>
+                  <Link to={"/dashboard/enso-forecasting"} state={markers}>
+                    <button className="bg-blue-700 text-white px-4 py-2 rounded font-bold">
+                      Finish Setup
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>

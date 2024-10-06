@@ -1,6 +1,6 @@
 export const riskProfile = [
   {
-    crop: "soybean",
+    crop: "Soybean",
     risks: [
       {
         category: "Max Temperature",
@@ -50,7 +50,7 @@ export const riskProfile = [
     ],
   },
   {
-    crop: "rice",
+    crop: "Rice",
     risks: [
       {
         category: "Max Temperature",
@@ -100,7 +100,7 @@ export const riskProfile = [
     ],
   },
   {
-    crop: "wheat",
+    crop: "Wheat",
     risks: [
       {
         category: "Max Temperature",
@@ -150,7 +150,7 @@ export const riskProfile = [
     ],
   },
   {
-    crop: "corn",
+    crop: "Corn",
     risks: [
       {
         category: "Max Temperature",
