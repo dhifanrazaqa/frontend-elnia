@@ -9,7 +9,7 @@ import windHome from "../assets/wind-home.png";
 import ccfusionbg from "../assets/ccfusionbg.png";
 import tractorHome from "../assets/tractor-home.png";
 import waterbg from "../assets/waterbg.png";
-import waterHome from "../assets/waTer-home.png";
+import waterHome from "../assets/water-home.png";
 
 export default function Home() {
   return (
