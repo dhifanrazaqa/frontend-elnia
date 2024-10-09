@@ -1,7 +1,6 @@
 /* eslint-disable no-constant-binary-expression */
 import logo from "@/assets/logo.png";
 import dropdown from "@/assets/dropdown.png";
-import soybean from "@/assets/soybean.png";
 import generate from "@/assets/generate.png";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -20,14 +19,17 @@ import RevenueCalculator from "@/components/molecule/revenueCalculator";
 import CommoditySelector from "@/components/molecule/comoditySelector";
 import PricePredictions from "@/components/molecule/pricePrediction";
 import SelectionComponent from "@/components/molecule/selectMode";
-import { MapContainer, TileLayer, Circle, Marker, Popup, Rectangle } from "react-leaflet";
 import {
-  useMutation,
-  useQueries,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Rectangle,
+} from "react-leaflet";
+import { useQueries } from "@tanstack/react-query";
 import axios from "axios";
+import Navigation from "@/components/molecule/navigation";
+import SoonFeatureModal from "@/components/molecule/soonfeatureModal";
 
 ChartJS.register(
   CategoryScale,
@@ -59,20 +61,22 @@ export default function YieldOptimizer() {
   const location = useLocation();
   const userData = location.state;
 
-
   const [fetchedData, setFetchedData] = useState({ date: ["a"], value: [10] });
   const [dateData, setDateData] = useState({ tanggal: "28-11-2024" });
   const [seasonalMonthData, setSeasonalMonthData] = useState(null);
   const [seasonalQuarterData, setSeasonalQuarterData] = useState(null);
   const [seasonalYearData, setSeasonalYearData] = useState(null);
-  const [currentData, setCurrentData] = useState(userData[0]);
-  const [position, setPosition] = useState([currentData.lat, currentData.lng]);
+  const [currentData] = useState(userData[0]);
+  const [position] = useState([currentData.lat, currentData.lng]);
+
+  const [visible, setVisible] = useState(false);
+  const [soonFeature, setSoonFeature] = useState("");
+
   const distance = 0.1;
   const bounds = [
     [position[0] - distance / 2, position[1] - distance / 2],
     [position[0] + distance / 2, position[1] + distance / 2],
   ];
-
 
   const queries = useQueries({
     queries: [
@@ -102,7 +106,7 @@ export default function YieldOptimizer() {
   const [fetchDateQuery, fetchMonthQuery, fetchQuarterQuery, fetchYearQuery] =
     queries;
 
-  const { data, error, isLoading, isFetching, refetch } = fetchDateQuery;
+  const { data, error, isLoading } = fetchDateQuery;
 
   useEffect(() => {
     if (data && data.forecasting_data) {
@@ -128,7 +132,7 @@ export default function YieldOptimizer() {
     }
   }, [data, fetchMonthQuery.data, fetchQuarterQuery.data, fetchYearQuery.data]);
   const [crop, setCrop] = useState(userData[0].crop);
-  const [selectedMode, setselectedMode] = useState("temp");
+  const [selectedMode, setSelectedMode] = useState("temp");
 
   const handleDateChange = (event) => {
     const [tahun, bulan, tanggal] = event.target.value.split("-");
@@ -208,16 +212,12 @@ export default function YieldOptimizer() {
       <div className="bg-neutral-600 w-full h-0.5" />
       <div className="grid grid-cols-12 gap-6">
         <div className="flex flex-col bg-neutral-800 gap-6 col-span-2 p-8">
-          <Link to={"/dashboard/enso-forecasting"} state={userData}>
-            <div className="rounded-md border-2 border-neutral-600 px-2 py-1 text-center shadow-2xl">
-              Enso Forecasting
-            </div>
-          </Link>
-          <Link to={"/dashboard/yield-optimizer"} state={userData}>
-            <div className="rounded-md border-2 border-neutral-600 px-2 py-1 text-center shadow-3xl">
-              CC - Fusion
-            </div>
-          </Link>
+          <Navigation
+            type={"1"}
+            userData={userData}
+            setSoonFeature={setSoonFeature}
+            setVisible={setVisible}
+          />
         </div>
         {/* Main */}
         <div className="col-span-6">
@@ -238,7 +238,7 @@ export default function YieldOptimizer() {
             <div className="p-2.5 rounded-xl bg-stone-500">{crop}</div>
             <SelectionComponent
               selectedMode={selectedMode}
-              setSelectedMode={setselectedMode}
+              setSelectedMode={setSelectedMode}
             />
           </div>
           <div className="py-7 rounded-lg">
@@ -252,7 +252,7 @@ export default function YieldOptimizer() {
             </div>
           </div>
           <div className="flex gap-5">
-            <div className="w-full h-72 border-2 border-neutral-500 rounded-xl">
+            <div className="w-full h-72 border-2 border-neutral-500 rounded-xl z-0">
               <MapContainer
                 center={position}
                 zoom={10}
@@ -270,10 +270,7 @@ export default function YieldOptimizer() {
                     Last Update: {dateData.tanggal}
                   </Popup>
                 </Marker>
-                <Rectangle
-                  bounds={bounds}
-                  color="green"
-                />
+                <Rectangle bounds={bounds} color="green" />
               </MapContainer>
             </div>
             {seasonalMonthData && seasonalQuarterData && seasonalYearData && (
@@ -312,7 +309,9 @@ export default function YieldOptimizer() {
         <div className="col-span-4 pr-6">
           <div className="flex justify-end gap-2 my-6">
             <button className="flex gap-2 border-4 font-bold border-sky-600 p-3 rounded-lg">
-              <img src={generate} />
+              <div>
+                <img src={generate} alt="generate" />
+              </div>
               Generate Insight
             </button>
             <button
@@ -330,6 +329,10 @@ export default function YieldOptimizer() {
             <RevenueCalculator crop={crop} />
           </div>
         </div>
+
+        {visible && (
+          <SoonFeatureModal setVisible={setVisible} soonFeature={soonFeature} />
+        )}
       </div>
     </div>
   );

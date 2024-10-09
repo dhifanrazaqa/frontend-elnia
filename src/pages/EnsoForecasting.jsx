@@ -1,18 +1,13 @@
 import logo from "@/assets/logo.png";
 
-import warm from "@/assets/warm.png";
 import supply from "@/assets/supply.png";
-import potential from "@/assets/potential.png";
-import oxygen from "@/assets/oxygen.png";
-import moisture from "@/assets/moisture.png";
-import polarity from "@/assets/polarity.png";
 import generate from "@/assets/generate.png";
 
 import dropdown from "@/assets/dropdown.png";
 import warning from "@/assets/warning.png";
 
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -24,16 +19,13 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import {
-  MapContainer,
-  TileLayer,
-  Circle,
-  Marker,
-  Popup,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Circle, Marker, Popup } from "react-leaflet";
 import SelectionComponent from "@/components/molecule/selectMode";
 import CropDistribution from "@/components/molecule/cropDistribution";
 import WaterCard from "@/components/molecule/waterCard";
+import Navigation from "@/components/molecule/navigation";
+import SoonFeatureModal from "@/components/molecule/soonfeatureModal";
+import GeneratedRecommend from "@/components/molecule/generatedRecommendModal";
 
 ChartJS.register(
   CategoryScale,
@@ -48,14 +40,19 @@ ChartJS.register(
 export default function EnsoForecasting() {
   const location = useLocation();
   const userData = location.state;
-  console.log(userData);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedMode, setselectedMode] = useState("temp");
+
+  const [setSelectedDate] = useState(null);
+  const [selectedMode, setSelectedMode] = useState("temp");
   const [currentData, setCurrentData] = useState(userData[0]);
-  const [crop, setCrop] = useState(userData[0].crop);
+  const [crop] = useState(userData[0].crop);
 
   const [position, setPosition] = useState([currentData.lat, currentData.lng]);
   const radius = 10000;
+
+  const [visible, setVisible] = useState(false);
+  const [soonFeature, setSoonFeature] = useState("");
+
+  const [visibleGenerated, setVisibleGenerated] = useState(false);
 
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
@@ -91,18 +88,20 @@ export default function EnsoForecasting() {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
+        display: false,
         position: "top",
       },
       title: {
-        display: true,
+        display: false,
         text: "Monthly Sales",
       },
     },
     scales: {
       y: {
-        beginAtZero: true,
+        beginAtZero: false,
       },
     },
   };
@@ -131,16 +130,12 @@ export default function EnsoForecasting() {
       <div className="bg-neutral-600 w-full h-0.5" />
       <div className="grid grid-cols-12 gap-6">
         <div className="flex flex-col bg-neutral-800 gap-6 col-span-2 p-8">
-          <Link to={"/dashboard/enso-forecasting"} state={userData}>
-            <div className="rounded-md border-2 border-neutral-600 px-2 py-1 text-center shadow-3xl">
-              Enso Forecasting
-            </div>
-          </Link>
-          <Link to={"/dashboard/yield-optimizer"} state={userData}>
-            <div className="rounded-md border-2 border-neutral-600 px-2 py-1 text-center shadow-2xl">
-              CC - Fusion
-            </div>
-          </Link>
+          <Navigation
+            type={"1"}
+            userData={userData}
+            setSoonFeature={setSoonFeature}
+            setVisible={setVisible}
+          />
         </div>
         {/* Main */}
         <div className="col-span-6">
@@ -164,82 +159,69 @@ export default function EnsoForecasting() {
             <div className="p-2.5 rounded-xl bg-stone-500">{crop}</div>
             <SelectionComponent
               selectedMode={selectedMode}
-              setSelectedMode={setselectedMode}
+              setSelectedMode={setSelectedMode}
             />
           </div>
 
           <div className="py-8 rounded-lg">
-            {/* Alert Distribution */}
-            <div className="flex justify-between items-center gap-4 mb-4">
-              {/* alert */}
-              <div className="w-96 h-36 border-2 border-neutral-500 p-4 rounded-xl">
-                <h3 className="text-lg">Alert Distribution</h3>
+            <div className="flex justify-between items-center mb-4">
+              {/* Soil Moisture */}
+              <div className="border-2 border-neutral-500 px-6 py-1 rounded-lg">
+                <h3 className="text-lg">Soil Moisture</h3>
                 <div className="flex justify-between">
-                  <span className="text-blue-400">72%</span>
-                  <span className="text-gray-400">28%</span>
+                  <h3 className="text-md font-bold">4500L</h3>
+                  <h3 className="text-md font-bold">
+                    Today <span className="text-green-600">+15%</span>
+                  </h3>
                 </div>
-                <div className="w-full bg-neutral-500">
-                  <div
-                    className="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none h-2"
-                    style={{ width: `${72}%` }}
-                  ></div>
-                </div>
-                <div className="flex justify-between">
-                  <span>Critical alerts</span>
-                  <span>Alerts</span>
-                </div>
-              </div>
-
-              {/* countdown */}
-              <div className="flex flex-col gap-2">
-                <div className="flex flex-col justify-center items-center w-96 h-16 border-2 border-neutral-500 rounded-xl">
-                  <div>
-                    <p>El Nino</p>
-                  </div>
-                  <div className="flex gap-3">
-                    <div className="flex justify-center items-center rounded-xl bg-stone-500 w-20 h-8">
-                      <p className="text-xs">91 Days</p>
-                    </div>
-                    <div className="flex justify-center items-center rounded-xl bg-stone-500 w-20 h-8">
-                      <p className="text-xs">2 Hours</p>
-                    </div>
-                    <div className="flex justify-center items-center rounded-xl bg-stone-500 w-20 h-8">
-                      <p className="text-xs">91 Minute</p>
-                    </div>
-                    <div className="flex justify-center items-center rounded-xl bg-stone-500 w-20 h-8">
-                      <p className="text-xs">91 Second</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col justify-center items-center w-96 h-16 border-2 border-neutral-500 rounded-xl">
-                  <p>La Niña</p>
-                  <div className="flex gap-3">
-                    <div className="flex justify-center items-center rounded-xl bg-stone-500 w-20 h-8">
-                      <p className="text-xs">91 Days</p>
-                    </div>
-                    <div className="flex justify-center items-center rounded-xl bg-stone-500 w-20 h-8">
-                      <p className="text-xs">2 Hours</p>
-                    </div>
-                    <div className="flex justify-center items-center rounded-xl bg-stone-500 w-20 h-8">
-                      <p className="text-xs">91 Minute</p>
-                    </div>
-                    <div className="flex justify-center items-center rounded-xl bg-stone-500 w-20 h-8">
-                      <p className="text-xs">91 Second</p>
-                    </div>
+                <div className="bg-gray-700 rounded-lg">
+                  <div className="bg-white shadow-md h-36 rounded-lg">
+                    <Line data={data} options={options} />
                   </div>
                 </div>
               </div>
 
-              <div className="flex"></div>
+              <div>
+                {/* probability */}
+                <div className="flex flex-col justify-center h-24 border-2 border-neutral-500 px-4 py-1 rounded-xl mb-2">
+                  <h3 className="text-xs text-center mb-4">
+                    El Nino Probability
+                  </h3>
+                  <div className="flex items-center gap-3">
+                    <div className="w-full bg-neutral-500 h-2">
+                      <div
+                        className="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none h-2"
+                        style={{ width: `${79}%` }}
+                      ></div>
+                    </div>
+                    <h3 className="text-xs">79%</h3>
+                  </div>
+                </div>
+                {/* probability */}
+                <div className="flex flex-col justify-center h-24 w-96 border-2 border-neutral-500 px-4 py-1 rounded-xl">
+                  <h3 className="text-xs text-center mb-4">
+                    La Niña Probability
+                  </h3>
+                  <div className="flex items-center gap-3">
+                    <div className="w-full bg-neutral-500 h-2">
+                      <div
+                        className="bg-red-600 text-xs font-medium text-white text-center p-0.5 leading-none h-2"
+                        style={{ width: `${79}%` }}
+                      ></div>
+                    </div>
+                    <h3 className="text-xs">79%</h3>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="h-64 bg-gray-700 rounded-lg">
+            <div className="h-64 bg-gray-700 rounded-lg z-0">
               {selectedMode !== "growth" ? (
-                <div className="w-full h-72">
+                <div className="w-full h-72 z-0">
                   <MapContainer
                     center={position}
                     zoom={10}
                     scrollWheelZoom={false}
-                    className="w-full h-full"
+                    className="w-full h-full z-0"
                   >
                     <TileLayer
                       url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
@@ -262,7 +244,7 @@ export default function EnsoForecasting() {
                   </MapContainer>
                 </div>
               ) : (
-                <div className="flex justify-center w-full h-72">
+                <div className="flex justify-center w-full h-72 z-0">
                   <CropDistribution crop={crop} />
                 </div>
               )}
@@ -282,19 +264,24 @@ export default function EnsoForecasting() {
 
         {/* Right Side */}
         <div className="col-span-4 pr-6">
-          <div className="flex justify-end my-6 gap-2">
-            <button className="flex gap-2 border-4 font-bold border-sky-600 p-3 rounded-lg">
-              <img src={generate} />
+          <div className="flex justify-end my-4 gap-2">
+            <button
+              className="flex gap-2 border-4 font-bold border-sky-600 p-3 rounded-lg"
+              onClick={() => setVisibleGenerated(true)}
+            >
+              <div>
+                <img src={generate} alt="generate" />
+              </div>
               Generate Insight
             </button>
             <button className="font-bold bg-blue-600 p-3 rounded-lg">
               PDF Full Report
             </button>
           </div>
-          <div className="border-2 border-neutral-500 p-6 rounded-lg">
+          <div className="border-2 border-neutral-500 px-6 py-4 rounded-lg">
             <div className="flex gap-3">
               <img src={warning} alt="research" />
-              <h3 className="text-lg">Critical alert breakdown by location</h3>
+              <h3 className="text-lg">Temperature</h3>
             </div>
             <div className="bg-gray-700 rounded-lg">
               <div className="bg-white shadow-md rounded-lg p-6">
@@ -303,27 +290,28 @@ export default function EnsoForecasting() {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 border-2 border-neutral-500 p-6 rounded-lg mt-4 gap-2">
-            <WaterCard title={"Warm Water"} logo={warm} value={70}></WaterCard>
-            <WaterCard title={"Supply"} logo={supply} value={70}></WaterCard>
-            <WaterCard
-              title={"Potential Supply"}
-              logo={potential}
-              value={70}
-            ></WaterCard>
-            <WaterCard title={"Oxygen"} logo={oxygen} value={70}></WaterCard>
-            <WaterCard
-              title={"Moisture"}
-              logo={moisture}
-              value={70}
-            ></WaterCard>
-            <WaterCard
-              title={"Polarity"}
-              logo={polarity}
-              value={70}
-            ></WaterCard>
+          <div className="grid grid-cols-3 border-2 border-neutral-500 px-6 py-3 rounded-lg mt-4 gap-2">
+            <h3 className="col-span-3 text-sm">Weather & Water Controllers</h3>
+            <div className="col-span-3 border-2 border-neutral-500 p-6 rounded-lg gap-2"></div>
+            <WaterCard title={"Humidity"} logo={supply} value={70}></WaterCard>
+            <div className="col-span-2 border-2 border-neutral-500 p-6 rounded-lg gap-2">
+              <p>
+                Today after sunrise it will be slightly cloudy. After lunchtime
+                it will be cloudy. About 11 hours the sun will be shining. It
+                stays cool with temperatures between 3°C and 15°C. After sunrise
+                there is a light easterly breeze which veers afterwards to a
+                light southeasterly breeze. In the night the sky is partly
+                cloudy.
+              </p>
+            </div>
           </div>
         </div>
+        {visible && (
+          <SoonFeatureModal setVisible={setVisible} soonFeature={soonFeature} />
+        )}
+        {visibleGenerated && (
+          <GeneratedRecommend setVisible={setVisibleGenerated}/>
+        )}
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ const MapComponent = () => {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [region, setRegion] = useState("");
-  const [farmName, setfarmName] = useState("");
+  const [farmName, setFarmName] = useState("");
   const [landArea, setLandArea] = useState("");
   const [irrigationAreaLength, setIrrigationAreaLength] = useState("");
   const [irrigationAreaWidth, setIrrigationAreaWidth] = useState("");
@@ -58,7 +58,7 @@ const MapComponent = () => {
       setLatitude("");
       setLongitude("");
       setRegion("");
-      setfarmName("");
+      setFarmName("");
       setLandArea("");
       setIrrigationAreaLength("");
       setIrrigationAreaWidth("");
@@ -256,7 +256,7 @@ const MapComponent = () => {
                   type="text"
                   placeholder="Farm Name"
                   value={farmName}
-                  onChange={(e) => setfarmName(e.target.value)}
+                  onChange={(e) => setFarmName(e.target.value)}
                   className="border p-2 mb-2 w-full rounded-md bg-neutral-800 border-neutral-500"
                 />
                 <input
@@ -330,7 +330,6 @@ const MapComponent = () => {
                 <h2 className="text-xl font-semibold mb-4">
                   Finish setup and continue to the platform?
                 </h2>
-                {console.log(markers)}
                 <p className="text-neutral-400 mt-4 mb-8">
                   You will be able to add more locations and assets later in the
                   Admin tab.

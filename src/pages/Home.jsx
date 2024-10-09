@@ -1,5 +1,15 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
+import circle1 from "../assets/circle1.png";
+import circle2 from "../assets/circle2.png";
+import circle3 from "../assets/circle3.png";
+import circle4 from "../assets/circle4.png";
+import ensobg from "../assets/ensoforbg.png";
+import windHome from "../assets/wind-home.png";
+import ccfusionbg from "../assets/ccfusionbg.png";
+import tractorHome from "../assets/tractor-home.png";
+import waterbg from "../assets/waterbg.png";
+import waterHome from "../assets/waTer-home.png";
 
 export default function Home() {
   return (
@@ -61,38 +71,85 @@ export default function Home() {
           region and farm needs.
         </p>
         <Link to={"/start"}>
-          <button className="mt-8 hover:bg-gray-600 bg-gradient-to-r from-blue-600 to-blue-800 text-white px-6 py-3 rounded-lg">
+          <button className="mt-8 hover:bg-gray-600 bg-gradient-to-r from-blue-800 to-blue-600 text-white px-6 py-3 rounded-sm">
             Let’s get started!
           </button>
         </Link>
       </section>
 
       {/* Feature Section */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-9 px-32 py-8 items-center justify-center">
-        <div className="flex flex-col justify-center items-center bg-background text-white p-6 rounded-lg shadow-2xl w-96 z-50">
-          <h3 className="text-xl font-semibold">Enso Forecasting</h3>
-          <p className="mt-2 text-neutral-500 text-center">
-            Provides real-time climate predictions based on data to detect
-            potential occurrences of El Niño or La Niña.
-          </p>
+      <section className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-24 px-64 items-center justify-center">
+        <div className="flex flex-col justify-center items-center text-white rounded-lg shadow-2xl w-72">
+          <div className="flex flex-col gap-2 justify-center items-center z-50">
+            <h3 className="text-md text-center font-semibold z-50">
+              Enso Forecasting
+            </h3>
+            <img src={windHome} alt="Logo" className="w-10 z-0" />
+            <p className="text-xs text-white text-center z-50">
+              Provides real-time climate predictions based on data to detect
+              potential occurrences of El Niño or La Niña.
+            </p>
+            <Link to={"/start"}>
+              <button className="font-bold text-black rounded-md px-7 py-1 bg-white">
+                Explore More
+              </button>
+            </Link>
+          </div>
+          <img
+            src={ensobg}
+            alt="Logo"
+            className="absolute w-96 h-52 object-cover z-0"
+          />
         </div>
-        <div className="flex flex-col justify-center items-center bg-background text-white p-6 rounded-lg shadow-2xl w-96">
-          <h3 className="text-xl font-semibold">Yield Optimizer</h3>
-          <p className="mt-2 text-neutral-500 text-center">
-            Optimizes crop yield through climate analysis and resource
-            allocation for informed farming decisions.
-          </p>
+        <div className="flex flex-col justify-center items-center text-white rounded-lg shadow-2xl w-72">
+          <div className="flex flex-col gap-2 justify-center items-center z-50">
+            <h3 className="text-md text-center font-semibold z-50">
+              Yield Optimizer
+            </h3>
+            <img src={tractorHome} alt="Logo" className="w-10 z-0" />
+            <p className="text-xs text-white text-center z-50">
+              Optimizes crop yield through climate analysis and resource
+              allocation for informed farming decisions.
+            </p>
+            <Link to={"/start"}>
+              <button className="font-bold text-black rounded-md px-7 py-1 bg-white">
+                Explore More
+              </button>
+            </Link>
+          </div>
+          <img
+            src={ccfusionbg}
+            alt="Logo"
+            className="absolute w-96 h-52 object-cover z-0"
+          />
         </div>
-        <div className="flex flex-col justify-center items-center bg-background text-white p-6 rounded-lg shadow-2xl w-96">
-          <h3 className="text-xl font-semibold">Water Management</h3>
-          <p className="mt-2 text-neutral-500 text-center">
-            Farmers can minimize water wastage while ensuring their crops get
-            the optimal amount of water for growth.
-          </p>
+        <div className="flex flex-col justify-center items-center text-white rounded-lg shadow-2xl w-72">
+          <div className="flex flex-col gap-2 justify-center items-center z-50">
+            <h3 className="text-md text-center font-semibold z-50">
+              Water Management
+            </h3>
+            <img src={waterHome} alt="Logo" className="w-10 z-0" />
+            <p className="text-xs text-white text-center z-50">
+              Farmers can minimize water wastage while ensuring their crops get
+              the optimal amount of water for growth.
+            </p>
+            <Link to={"/start"}>
+              <button className="font-bold text-black rounded-md px-7 py-1 bg-white">
+                Explore More
+              </button>
+            </Link>
+          </div>
+          <img
+            src={waterbg}
+            alt="Logo"
+            className="absolute w-96 h-52 object-cover z-0"
+          />
         </div>
       </section>
-      <div className="border-2 border-neutral-600 w-96 h-96 rounded-3xl fixed -bottom-12 -left-20"></div>
-      <div className="border-2 border-neutral-600 w-96 h-96 rounded-3xl fixed -top-40 -right-72 z-0"></div>
+      <img src={circle1} alt="Circle 1" className="absolute top-1/3 left-20" />
+      <img src={circle2} alt="Circle 2" className="absolute top-1/2 left-40" />
+      <img src={circle4} alt="Circle 3" className="absolute top-1/3 right-20" />
+      <img src={circle3} alt="Circle 4" className="absolute top-1/2 right-40" />
     </div>
   );
 }
