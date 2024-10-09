@@ -2,6 +2,8 @@
 import logo from "@/assets/logo.png";
 import dropdown from "@/assets/dropdown.png";
 import generate from "@/assets/generate.png";
+import L from "leaflet";
+import locationIc from "@/assets/location_ic.png";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
@@ -40,6 +42,14 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
+const markerIcon = new L.Icon({
+  iconUrl: locationIc,
+  iconSize: [41, 41],
+  iconAnchor: [20, 30],
+  popupAnchor: [1, 1],
+  shadowSize: [41, 41],
+});
 
 const fetchDateData = async (dateData) => {
   const response = await axios.post(
@@ -263,7 +273,7 @@ export default function YieldOptimizer() {
                   url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
-                <Marker position={position}>
+                <Marker position={position} icon={markerIcon}>
                   <Popup>
                     Crop: {crop}
                     <br />

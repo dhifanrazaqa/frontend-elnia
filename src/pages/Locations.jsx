@@ -52,7 +52,7 @@ const MapComponent = () => {
         irrigationAreaDepth,
         irrigationAreaWidth,
         status,
-        crop
+        crop,
       };
       setMarkers([...markers, newMarker]);
       setLatitude("");
@@ -341,7 +341,7 @@ const MapComponent = () => {
                   >
                     Keep Editing
                   </button>
-                  <Link to={"/dashboard/enso-forecasting"} state={markers}>
+                  <Link to={"/dashboard/yield-optimizer"} state={markers}>
                     <button className="bg-blue-700 text-white px-4 py-2 rounded font-bold">
                       Finish Setup
                     </button>

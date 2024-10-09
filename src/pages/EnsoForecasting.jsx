@@ -2,7 +2,8 @@ import logo from "@/assets/logo.png";
 
 import supply from "@/assets/supply.png";
 import generate from "@/assets/generate.png";
-
+import L from "leaflet";
+import locationIc from "@/assets/location_ic.png";
 import dropdown from "@/assets/dropdown.png";
 import warning from "@/assets/warning.png";
 
@@ -36,6 +37,14 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
+const markerIcon = new L.Icon({
+  iconUrl: locationIc,
+  iconSize: [41, 41],
+  iconAnchor: [20, 30],
+  popupAnchor: [1, 1],
+  shadowSize: [41, 41],
+});
 
 export default function EnsoForecasting() {
   const location = useLocation();
@@ -227,7 +236,7 @@ export default function EnsoForecasting() {
                       url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     />
-                    <Marker position={position}>
+                    <Marker position={position} icon={markerIcon}>
                       <Popup>
                         Koordinat: {position[0]}, {position[1]}
                       </Popup>
@@ -310,7 +319,7 @@ export default function EnsoForecasting() {
           <SoonFeatureModal setVisible={setVisible} soonFeature={soonFeature} />
         )}
         {visibleGenerated && (
-          <GeneratedRecommend setVisible={setVisibleGenerated}/>
+          <GeneratedRecommend setVisible={setVisibleGenerated} />
         )}
       </div>
     </div>
