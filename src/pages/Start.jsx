@@ -16,7 +16,7 @@ export default function Start() {
             <img src={logo} alt="Logo" className="w-40" />
           </div>
         </Link>
-        <div className="flex items-center w-1/2 h-16">
+        <div className="hidden md:flex items-center w-1/2 h-16">
           <div className="flex flex-col justify-center items-center">
             <div className="flex justify-center items-center rounded-full bg-blue-700 h-6 w-6">
               <div className="rounded-full bg-white h-4 w-4" />
@@ -58,7 +58,7 @@ export default function Start() {
         </p>
       </section>
       {/* Feature Section */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-5 items-center justify-center w-5/12 mx-14">
+      <section className="grid grid-cols-1 sm:grid-cols-2 gap-5 items-center justify-center md:w-5/12 mx-14">
         <Link to={"/risk/Soybean"}>
           <div className="flex justify-center items-center gap-3 bg-background text-white p-6 rounded-lg shadow-3xl hover:bg-neutral-600 hover:cursor-pointer w-60">
             <img src={soybean} alt="" className="w-10" />
@@ -84,15 +84,13 @@ export default function Start() {
           </div>
         </Link>
       </section>
-      <section className="flex flex-col items-start justify-start pt-12 mx-14 mb-8">
+      <section className="flex flex-col items-start justify-start pt-12 mx-14 pb-10">
         <p className="text-lg text-white">
           You will find preset configurations which you can tailor to your own
           needs.
-          <br />
-          Click continue to start
         </p>
       </section>
-      <img src={start} alt="start" className="absolute top-1/4 right-20" />
+      <img src={start} alt="start" className="hidden lg:flex lg:w-96 xl:w-auto absolute top-1/4 right-20" />
     </div>
   );
 }

@@ -27,6 +27,14 @@ import WaterCard from "@/components/molecule/waterCard";
 import Navigation from "@/components/molecule/navigation";
 import SoonFeatureModal from "@/components/molecule/soonfeatureModal";
 import GeneratedRecommend from "@/components/molecule/generatedRecommendModal";
+import {
+  la_nina_probabilities,
+  el_nino_probabilities,
+} from "@/data/laninaelnino";
+import {
+  soil_moisture_difference,
+  soil_moisture_today,
+} from "@/data/soilmoisture";
 
 ChartJS.register(
   CategoryScale,
@@ -63,6 +71,20 @@ export default function EnsoForecasting() {
 
   const [visibleGenerated, setVisibleGenerated] = useState(false);
 
+  const [elnino, setElnino] = useState(
+    el_nino_probabilities[userData[0].region]
+  );
+  const [lanina, setLanina] = useState(
+    la_nina_probabilities[userData[0].region]
+  );
+
+  const [soilIndex, setSoilIndex] = useState(
+    soil_moisture_today[userData[0].region]
+  );
+  const [soilPercent, setSoilPercent] = useState(
+    soil_moisture_difference[userData[0].region]
+  );
+
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
   };
@@ -71,7 +93,7 @@ export default function EnsoForecasting() {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
       {
-        label: "Sales",
+        label: "Data",
         data: [100, 200, 150, 300, 250, 400, 350],
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
@@ -117,12 +139,16 @@ export default function EnsoForecasting() {
 
   const handleLocationChange = (e) => {
     const { value } = e.target;
-    console.log(value);
+
     const targetLocation = userData.find(
       (data) => data.region === value.split(" ")[1]
     );
 
     setCurrentData(targetLocation);
+    setElnino(el_nino_probabilities[targetLocation.region]);
+    setLanina(la_nina_probabilities[targetLocation.region]);
+    setSoilIndex(soil_moisture_today[targetLocation.region]);
+    setSoilPercent(soil_moisture_difference[targetLocation.region]);
     setPosition([targetLocation.lat, targetLocation.lng]);
   };
 
@@ -178,9 +204,9 @@ export default function EnsoForecasting() {
               <div className="border-2 border-neutral-500 px-6 py-1 rounded-lg">
                 <h3 className="text-lg">Soil Moisture</h3>
                 <div className="flex justify-between">
-                  <h3 className="text-md font-bold">4500L</h3>
+                  <h3 className="text-md font-bold">{soilIndex}L</h3>
                   <h3 className="text-md font-bold">
-                    Today <span className="text-green-600">+15%</span>
+                    Today <span className="text-green-600">{soilPercent}</span>
                   </h3>
                 </div>
                 <div className="bg-gray-700 rounded-lg">
@@ -200,10 +226,10 @@ export default function EnsoForecasting() {
                     <div className="w-full bg-neutral-500 h-2">
                       <div
                         className="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none h-2"
-                        style={{ width: `${79}%` }}
+                        style={{ width: `${elnino}%` }}
                       ></div>
                     </div>
-                    <h3 className="text-xs">79%</h3>
+                    <h3 className="text-xs">{elnino}%</h3>
                   </div>
                 </div>
                 {/* probability */}
@@ -215,10 +241,10 @@ export default function EnsoForecasting() {
                     <div className="w-full bg-neutral-500 h-2">
                       <div
                         className="bg-red-600 text-xs font-medium text-white text-center p-0.5 leading-none h-2"
-                        style={{ width: `${79}%` }}
+                        style={{ width: `${lanina}%` }}
                       ></div>
                     </div>
-                    <h3 className="text-xs">79%</h3>
+                    <h3 className="text-xs">{lanina}</h3>
                   </div>
                 </div>
               </div>

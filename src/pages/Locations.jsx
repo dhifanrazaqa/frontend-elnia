@@ -95,7 +95,7 @@ const MapComponent = () => {
             <img src={logo} alt="Logo" className="w-40" />
           </div>
         </Link>
-        <div className="flex items-center w-1/2 h-16">
+        <div className="hidden md:flex items-center w-1/2 h-16">
           <div className="flex flex-col justify-center items-center">
             <div className="flex justify-center items-center rounded-full bg-blue-700 h-6 w-6">
               <div className="rounded-full bg-white h-4 w-4" />
@@ -126,8 +126,8 @@ const MapComponent = () => {
       <div className="bg-neutral-600 w-full h-0.5" />
       <section className="bg-background py-4 px-12">
         <div className="container mx-auto">
-          <div className="grid grid-cols-2">
-            <div>
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            <div className="pb-6">
               <div className="mb-6">
                 <div className="flex flex-row space-x-2">
                   <h1 className="text-xl font-semibold">
@@ -354,7 +354,7 @@ const MapComponent = () => {
       </section>
       <section>
         <div className="flex flex-row justify-end items-center py-4 px-12 space-x-3">
-          <p className="text-neutral-500">
+          <p className="hidden md:flex text-neutral-500">
             You will be able to edit/create custom risk profiles later in the
             Admin tab
           </p>

@@ -32,6 +32,7 @@ import { useQueries } from "@tanstack/react-query";
 import axios from "axios";
 import Navigation from "@/components/molecule/navigation";
 import SoonFeatureModal from "@/components/molecule/soonfeatureModal";
+import GeneratedRecommend from "@/components/molecule/generatedRecommendModal";
 
 ChartJS.register(
   CategoryScale,
@@ -81,6 +82,8 @@ export default function YieldOptimizer() {
 
   const [visible, setVisible] = useState(false);
   const [soonFeature, setSoonFeature] = useState("");
+
+  const [visibleGenerated, setVisibleGenerated] = useState(false);
 
   const distance = 0.1;
   const bounds = [
@@ -318,7 +321,9 @@ export default function YieldOptimizer() {
         {/* Right Side */}
         <div className="col-span-4 pr-6">
           <div className="flex justify-end gap-2 my-6">
-            <button className="flex gap-2 border-4 font-bold border-sky-600 p-3 rounded-lg">
+            <button className="flex gap-2 border-4 font-bold border-sky-600 p-3 rounded-lg"
+              onClick={() => setVisibleGenerated(true)}
+            >
               <div>
                 <img src={generate} alt="generate" />
               </div>
@@ -342,6 +347,9 @@ export default function YieldOptimizer() {
 
         {visible && (
           <SoonFeatureModal setVisible={setVisible} soonFeature={soonFeature} />
+        )}
+        {visibleGenerated && (
+          <GeneratedRecommend setVisible={setVisibleGenerated} />
         )}
       </div>
     </div>

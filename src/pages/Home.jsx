@@ -19,7 +19,7 @@ export default function Home() {
         <div className="text-xl font-bold">
           <img src={logo} alt="Logo" className="w-40" />
         </div>
-        <nav className="space-x-8">
+        <nav className="hidden md:flex space-x-8">
           <a href="#about" className="text-neutral-400 hover:text-blue-400">
             About Us
           </a>
@@ -51,7 +51,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center text-center py-12 px-4">
+      <section className="flex flex-col items-center justify-center text-center pt-12 pb-6 px-4">
         <h1 className="text-4xl md:text-5xl">
           Clear{" "}
           <span className="font-bold bg-gradient-to-t from-sky-500 to-sky-800 inline-block text-transparent bg-clip-text">
@@ -78,13 +78,14 @@ export default function Home() {
       </section>
 
       {/* Feature Section */}
-      <section className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-24 px-64 items-center justify-center">
-        <div className="flex flex-col justify-center items-center text-white rounded-lg shadow-2xl w-72">
-          <div className="flex flex-col gap-2 justify-center items-center z-50">
+      <section className="mt-2 pb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 lg:gap-24 px-5 md:px-12 lg:px-24 place-items-center">
+        {/* Card 1 */}
+        <div className="relative flex flex-col justify-center items-center text-white rounded-lg px-6 py-4 w-full max-w-xs lg:max-w-sm mx-auto overflow-hidden">
+          <div className="flex flex-col gap-2 justify-center items-center z-50 p-4">
             <h3 className="text-md text-center font-semibold z-50">
               Enso Forecasting
             </h3>
-            <img src={windHome} alt="Logo" className="w-10 z-0" />
+            <img src={windHome} alt="Logo" className="w-10 z-10" />
             <p className="text-xs text-white text-center z-50">
               Provides real-time climate predictions based on data to detect
               potential occurrences of El Niño or La Niña.
@@ -97,16 +98,18 @@ export default function Home() {
           </div>
           <img
             src={ensobg}
-            alt="Logo"
-            className="absolute w-96 h-52 object-cover z-0"
+            alt="Background"
+            className="absolute inset-0 w-full h-full object-cover z-0 opacity-40"
           />
         </div>
-        <div className="flex flex-col justify-center items-center text-white rounded-lg shadow-2xl w-72">
-          <div className="flex flex-col gap-2 justify-center items-center z-50">
+
+        {/* Card 2 */}
+        <div className="relative flex flex-col justify-center items-center text-white rounded-lg px-6 py-4 w-full max-w-xs lg:max-w-sm mx-auto overflow-hidden">
+          <div className="flex flex-col gap-2 justify-center items-center z-50 p-4">
             <h3 className="text-md text-center font-semibold z-50">
               Yield Optimizer
             </h3>
-            <img src={tractorHome} alt="Logo" className="w-10 z-0" />
+            <img src={tractorHome} alt="Logo" className="w-10 z-10" />
             <p className="text-xs text-white text-center z-50">
               Optimizes crop yield through climate analysis and resource
               allocation for informed farming decisions.
@@ -119,16 +122,18 @@ export default function Home() {
           </div>
           <img
             src={ccfusionbg}
-            alt="Logo"
-            className="absolute w-96 h-52 object-cover z-0"
+            alt="Background"
+            className="absolute inset-0 w-full h-full object-cover z-0 opacity-40"
           />
         </div>
-        <div className="flex flex-col justify-center items-center text-white rounded-lg shadow-2xl w-72">
-          <div className="flex flex-col gap-2 justify-center items-center z-50">
+
+        {/* Card 3 */}
+        <div className="relative flex flex-col justify-center items-center text-white rounded-lg px-6 py-4 w-full max-w-xs lg:max-w-sm mx-auto overflow-hidden">
+          <div className="flex flex-col gap-2 justify-center items-center z-50 p-4">
             <h3 className="text-md text-center font-semibold z-50">
               Water Management
             </h3>
-            <img src={waterHome} alt="Logo" className="w-10 z-0" />
+            <img src={waterHome} alt="Logo" className="w-10 z-10" />
             <p className="text-xs text-white text-center z-50">
               Farmers can minimize water wastage while ensuring their crops get
               the optimal amount of water for growth.
@@ -141,15 +146,16 @@ export default function Home() {
           </div>
           <img
             src={waterbg}
-            alt="Logo"
-            className="absolute w-96 h-52 object-cover z-0"
+            alt="Background"
+            className="absolute inset-0 w-full h-full object-cover z-0 opacity-40"
           />
         </div>
       </section>
-      <img src={circle1} alt="Circle 1" className="absolute top-1/3 left-20" />
-      <img src={circle2} alt="Circle 2" className="absolute top-1/2 left-40" />
-      <img src={circle4} alt="Circle 3" className="absolute top-1/3 right-20" />
-      <img src={circle3} alt="Circle 4" className="absolute top-1/2 right-40" />
+
+      <img src={circle1} alt="Circle 1" className="hidden lg:flex opacity-70 absolute md:top-1/4 md:left-20" />
+      <img src={circle2} alt="Circle 2" className="hidden lg:flex opacity-70 absolute md:top-1/2 md:left-40" />
+      <img src={circle4} alt="Circle 3" className="hidden lg:flex opacity-70 absolute md:top-1/4 md:right-20" />
+      <img src={circle3} alt="Circle 4" className="hidden lg:flex opacity-70 absolute md:top-1/2 md:right-40" />
     </div>
   );
 }
